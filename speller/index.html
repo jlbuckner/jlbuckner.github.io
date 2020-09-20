@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <title>Speller</title>
+  </head>
+  <body>
+    <header>
+      <h1>Joe Buckner</h1>
+      <nav>
+        <ul>
+          <li><a href="/about">About</a></li>
+          <li><a href="/">Blog</a></li>
+          <li><a href="/projects">Projects</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+      <hr>
+    </header>
+    <main>
+      <article>
+        <h3>Speller</h3>
+        <time datetime="2020-09-19"><i class="date">September 19, 2020</i></time>
+        <p>Week 5 of <a href="https://cs50.harvard.edu/x/2020/">CS50x</a> dives into data structures, focusing on linked lists, hash tables and tries. Conceptually these all made sense but I had some difficulty implementing a hash table. Someone on the class Discord channel tried to help, repeatedly banging my head against the wall with "hash tables are just an array of linked lists" - the same message the lecture and the shorts videos were trying to bang into my head.</p>
+        <p>My logic was:</p>
+        <ul>
+          <li>If the hash table is pointing to something</li>
+          <ul>
+            <li>Make the new node point to what the hash table was pointing to</li>
+            <li>Make the hash table point to the new node</li>
+          </ul>
+          <li>Otherwise if the hash table is pointing to nothing</li>
+          <ul>
+            <li>Make the hash table point to the new node</li>
+          </ul>
+        </ul>
+        <p>And the code was:</p>
+        <code>
+          <p>// Insert node into hash table</p>
+          <p>if (table[index]->next != NULL)</p>
+          <p>{</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;n->next = table[index]->next;</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;table[index]->next = new_node;</p>
+          <p>}</p>
+          <p>else</p>
+          <p>{</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;table[index]->next = new_node;</p>
+          <p>}</p>
+        </code>
+        <p>It makes sense that the person on Discord tried to clarify my understanding of a hash table. How can the program check what the hash table is pointing to if the element in the hash table is empty? No matter how much I went over the videos I still wasn't getting it.</p>
+        <p>Eventually I just tried something different, just to see what would happen:</p>
+        <code>
+          <p>if (table[index] == NULL)</p>
+          <p>{</p>
+          <p>&nbsp;&nbsp;&nbsp;&nbsp;table[index] = new_node;</p>
+          <p>}</p>
+          <p>...</p>
+        </code>
+        <p>The function seemed to worked in that data was being stored in the hash table, but it still wasn't completely clear until I tried to draw the process out. <em>Finally</em> I realized the <code>new_node</code> variable is merely <em>pointing</em> to the data. So assigning <code>table[index]</code> to <code>new_node</code> is merely changing where the element <em>points</em> to, not the content itself. I mistakenly thought <code>table[index] = new_node</code> would put the data inside the element <code>table[index]</code>.</p>
+        <p>Oh, the joy of pointers.</p>
+      </article>
+    </main>
+    <footer>
+      <hr>
+      <p>Content licensed under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA</a>; code licensed under <a href="https://www.gnu.org/licenses/gpl-3.0.en.html">GNU GPLv3</a>.</p>
+    </footer>
+  </body>
+</html>
